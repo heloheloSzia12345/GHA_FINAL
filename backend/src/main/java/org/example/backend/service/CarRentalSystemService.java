@@ -31,7 +31,6 @@ public class CarRentalSystemService {
         if(customers.isEmpty()){
             customer = new Customer(licenseNum, name, dateOfBirth);
             customerRepository.save(customer);
-
         }else{
             customer = customers.get(0);
         }

@@ -23,10 +23,11 @@ public class Rental {
     private LocalDate deadline;
     private int preis;
 
-    public Rental(Car car, Customer customer, LocalDate pickUpDate, LocalDate deadline, LocalDate localDate) {
+    public Rental(Car car, Customer customer, LocalDate pickUpDate, LocalDate deadline, LocalDate dropOffDate) {
         this.car = car;
         this.customer = customer;
         this.pickUpDate = pickUpDate;
         this.deadline = deadline;
+        this.dropOffDate = dropOffDate;
     }
 }

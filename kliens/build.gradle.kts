@@ -27,7 +27,7 @@ tasks.withType<JavaCompile> {
 
 application {
     mainModule.set("org.example.kliens")
-    mainClass.set("org.example.kliens.HelloApplication")
+    mainClass.set("org.example.Launcher")
 }
 
 javafx {
@@ -44,6 +44,15 @@ dependencies {
     implementation("eu.hansolo:tilesfx:21.0.9") {
         exclude(group = "org.openjfx")
     }
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2")
+
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
+
+    testCompileOnly("org.projectlombok:lombok:1.18.30")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.30")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }

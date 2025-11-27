@@ -8,6 +8,8 @@ import javafx.scene.layout.FlowPane;
 import org.example.kliens.dto.CarDTO;
 import org.example.kliens.restclientapi.RestClientApi;
 
+import java.util.List;
+
 public class MainController {
     private final RestClientApi restClientApi;
     private final ObservableList<CarDTO> availableCars;
@@ -28,7 +30,7 @@ public class MainController {
         this.availableCars = availableCars;
     }
 
-    public void initialize() {
+    public void initialize() throws Exception {
         tableView= new TableView<>();
         nameField= new TextField();
         nameField.setPromptText("Name");
@@ -51,7 +53,8 @@ public class MainController {
         TableColumn<CarDTO, String> colorCol = new TableColumn<>("color");
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
         tableView.getColumns().addAll(licensePlateCol, brandCol,carTypeCol,colorCol);
-
+        List<CarDTO> cars = restClientApi.getAllCars();
+        availableCars.setAll(cars);
         tableView.setItems(availableCars);
 
         flowPane= new FlowPane();
@@ -64,6 +67,7 @@ public class MainController {
         flowPane.getChildren().add(nameField);
         flowPane.getChildren().add(licenseNumField);
         flowPane.getChildren().add(dateOfBirthPicker);
+        flowPane.getChildren().add(pickUpDatePicker);
         flowPane.getChildren().add(deadlinePicker);
         flowPane.getChildren().add(tableView);
         flowPane.getChildren().add(licensePlateField);
@@ -87,5 +91,8 @@ public class MainController {
 
             }
         });
+    }
+    public FlowPane getRootLayout(){
+        return flowPane;
     }
 }

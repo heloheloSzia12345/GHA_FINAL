@@ -1,6 +1,7 @@
 module org.example.kliens {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.graphics;
     requires javafx.web;
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -9,6 +10,11 @@ module org.example.kliens {
     requires static lombok;
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
-    opens org.example.kliens to javafx.fxml;
+    requires com.fasterxml.jackson.datatype.jsr310;
+    opens org.example.kliens to javafx.fxml, javafx.graphics;
+    opens org.example.kliens.dto to com.fasterxml.jackson.databind, javafx.base;
+    opens org.example.kliens.restclientapi to javafx.fxml;
     exports org.example.kliens;
+    exports org.example.kliens.dto;
+    exports org.example.kliens.restclientapi;
 }

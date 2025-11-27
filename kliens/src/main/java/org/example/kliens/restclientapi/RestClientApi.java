@@ -22,6 +22,7 @@ public class RestClientApi {
     public RestClientApi(HttpClient httpClient, ObjectMapper objectMapper) {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
+        this.objectMapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
     }
 
     public List<CarDTO> getAllCars() throws Exception{

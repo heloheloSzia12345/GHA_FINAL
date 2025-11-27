@@ -31,7 +31,7 @@ public class RentalController {
     @PostMapping("/drop")
     public ResponseEntity<RentalDTO> dropOff(@RequestBody DropOffRequest dropOffRequest) {
         RentalDTO rentalDTO = carRentalSystemService.dropOffCar(
-            dropOffRequest.getLicenseNum(),
+            dropOffRequest.getLicensePlate(),
             dropOffRequest.getName(),
             dropOffRequest.getDropOffDate()
         );

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DropOffRequest {
-    private String licenseNum;
+    private String licensePlate;
     private String name;
     private LocalDate dropOffDate;
 }

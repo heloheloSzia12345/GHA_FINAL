@@ -23,4 +23,5 @@ public class CarController {
         List<CarDTO> rentableCars=carRentalSystemService.rentableCars();
         return ResponseEntity.ok(rentableCars);
     }
+
 }

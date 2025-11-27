@@ -21,6 +21,7 @@ public class MainController {
     private DatePicker dateOfBirthPicker;
     private DatePicker pickUpDatePicker;
     private DatePicker deadlinePicker;
+    private DatePicker dropOffDatePicker;
     private TextField licensePlateField;
     private CheckBox checkBox;
     private Button executeButton;
@@ -37,8 +38,13 @@ public class MainController {
         licenseNumField= new TextField();
         licenseNumField.setPromptText("License Number");
         dateOfBirthPicker= new DatePicker();
+        dateOfBirthPicker.setPromptText("Birth Date");
         pickUpDatePicker= new DatePicker();
+        pickUpDatePicker.setPromptText("Pick-Up Date");
         deadlinePicker= new DatePicker();
+        deadlinePicker.setPromptText("Deadline");
+        dropOffDatePicker= new DatePicker();
+        dropOffDatePicker.setPromptText("Return Date");
         licensePlateField= new TextField();
         licensePlateField.setPromptText("License Plate");
         checkBox= new CheckBox("Renting");
@@ -69,6 +75,7 @@ public class MainController {
         flowPane.getChildren().add(dateOfBirthPicker);
         flowPane.getChildren().add(pickUpDatePicker);
         flowPane.getChildren().add(deadlinePicker);
+        flowPane.getChildren().add(dropOffDatePicker);
         flowPane.getChildren().add(tableView);
         flowPane.getChildren().add(licensePlateField);
         flowPane.getChildren().add(executeButton);
@@ -83,7 +90,7 @@ public class MainController {
                 }
             }else{
                 try {
-                    restClientApi.dropOffCar(licensePlateField.getText(),nameField.getText(),deadlinePicker.getValue());
+                    restClientApi.dropOffCar(licenseNumField.getText(),nameField.getText(),dropOffDatePicker.getValue());
                     availableCars.setAll(restClientApi.getAllCars());
                 } catch (Exception e) {
                     throw new RuntimeException(e);

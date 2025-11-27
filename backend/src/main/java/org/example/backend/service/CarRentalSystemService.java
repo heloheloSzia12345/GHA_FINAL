@@ -36,7 +36,7 @@ public class CarRentalSystemService {
         }
         Car car = carRepository.findByLicensePlate(licensePlate);
         car.setRentable(false);
-        Rental rental = rentalRepository.save(new Rental(car,customer,pickUpDate,deadline, LocalDate.of(2025, 11, 28)));
+        Rental rental = rentalRepository.save(new Rental(car,customer,pickUpDate,deadline, null));
         return RentalMapper.toDto(rental);
     }
 
@@ -47,6 +47,11 @@ public class CarRentalSystemService {
     @Transactional
     public RentalDTO dropOffCar(String licenseNum,String name,LocalDate dropOffDate){
         Rental rental=rentalRepository.findByCustomer_LicenseNumAndDropOffDateIsNull(licenseNum);
+        
+        if (rental == null) {
+            throw new RuntimeException("No active rental found for customer: " + licenseNum);
+        }
+        
         Car car=rental.getCar();
         car.setRentable(true);
         carRepository.save(car);

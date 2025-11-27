@@ -45,9 +45,9 @@ public class RestClientApi {
         return objectMapper.readValue(response.body(),RentalDTO.class);
     }
 
-    public RentalDTO dropOffCar(String licensePlate, String name, LocalDate dropOffDate) throws Exception{
+    public RentalDTO dropOffCar(String licenseNum, String name, LocalDate dropOffDate) throws Exception{
         Map<String,Object> jsonMap= new HashMap<>();
-        jsonMap.put("licensePlate",licensePlate);
+        jsonMap.put("licenseNum",licenseNum);
         jsonMap.put("name",name);
         jsonMap.put("dropOffDate",dropOffDate);
         String json = objectMapper.writeValueAsString(jsonMap);

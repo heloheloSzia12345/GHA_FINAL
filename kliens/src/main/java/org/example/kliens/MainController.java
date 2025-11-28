@@ -5,7 +5,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import org.example.kliens.dto.CarDTO;
+import org.example.kliens.dto.RentalDTO;
 import org.example.kliens.restclientapi.RestClientApi;
 
 import java.util.List;
@@ -29,6 +31,14 @@ public class MainController {
     public MainController(RestClientApi restClientApi, ObservableList<CarDTO> availableCars) {
         this.restClientApi = restClientApi;
         this.availableCars = availableCars;
+    }
+
+    private void showPreis(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Preis");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public void initialize() throws Exception {
@@ -62,36 +72,53 @@ public class MainController {
         List<CarDTO> cars = restClientApi.getAllCars();
         availableCars.setAll(cars);
         tableView.setItems(availableCars);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        VBox box=new VBox(10);
+        box.setAlignment(Pos.TOP_LEFT);
+
+        box.getChildren().add(checkBox);
+        box.getChildren().add(new Label("Name:"));
+        box.getChildren().add(nameField);
+        box.getChildren().add(new Label("License Number: "));
+        box.getChildren().add(licenseNumField);
+        box.getChildren().add(new Label("Birth Date:"));
+        box.getChildren().add(dateOfBirthPicker);
+        box.getChildren().add(new Label("Pick-Up Date:"));
+        box.getChildren().add(pickUpDatePicker);
+        box.getChildren().add(new Label("Deadline:"));
+        box.getChildren().add(deadlinePicker);
+        box.getChildren().add(new Label("Return Date:"));
+        box.getChildren().add(dropOffDatePicker);
+        box.getChildren().add(new Label("License Plate:"));
+        box.getChildren().add(licensePlateField);
+        box.getChildren().add(executeButton);
+
+
 
         flowPane= new FlowPane();
         flowPane.setMinSize(600,500);
         flowPane.setAlignment(Pos.CENTER);
-        flowPane.setHgap(5);
-        flowPane.setVgap(5);
+        flowPane.setHgap(20);
+        flowPane.setVgap(20);
 
-        flowPane.getChildren().add(checkBox);
-        flowPane.getChildren().add(nameField);
-        flowPane.getChildren().add(licenseNumField);
-        flowPane.getChildren().add(dateOfBirthPicker);
-        flowPane.getChildren().add(pickUpDatePicker);
-        flowPane.getChildren().add(deadlinePicker);
-        flowPane.getChildren().add(dropOffDatePicker);
+        flowPane.getChildren().add(box);
         flowPane.getChildren().add(tableView);
-        flowPane.getChildren().add(licensePlateField);
-        flowPane.getChildren().add(executeButton);
 
         executeButton.setOnAction(event -> {
             if(checkBox.isSelected()) {
                 try {
                     restClientApi.renting(licensePlateField.getText(),licenseNumField.getText(),nameField.getText(),dateOfBirthPicker.getValue(),pickUpDatePicker.getValue(),deadlinePicker.getValue());
                     availableCars.setAll(restClientApi.getAllCars());
+                    showPreis("Car rented!");
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }else{
                 try {
-                    restClientApi.dropOffCar(licenseNumField.getText(),nameField.getText(),dropOffDatePicker.getValue());
+                    RentalDTO rental = restClientApi.dropOffCar(licenseNumField.getText(),nameField.getText(),dropOffDatePicker.getValue());
                     availableCars.setAll(restClientApi.getAllCars());
+                    showPreis("Preis "+ rental.getPreis()+"FT");
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -102,4 +129,5 @@ public class MainController {
     public FlowPane getRootLayout(){
         return flowPane;
     }
+
 }

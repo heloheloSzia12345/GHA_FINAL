@@ -24,6 +24,13 @@ public class Renting {
         alert.showAndWait();
     }
 
+    private void showError(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     public Renting(RestClientApi restClientApi,ObservableList<CarDTO> availableCars) {
         this.restClientApi = restClientApi;
         this.availableCars=availableCars;
@@ -86,12 +93,16 @@ public class Renting {
         flowPane.getChildren().add(tableView);
 
         executeButton.setOnAction(event -> {
+            if(nameField.getText().isEmpty() || licenseNumField.getText().isEmpty() || dateOfBirthPicker.getValue()==null || pickUpDatePicker.getValue()==null || deadlinePicker.getValue()==null || licensePlateField.getText().isEmpty()){
+                showPreis("Please fill all the fields!");
+                return;
+            }
             try {
                 restClientApi.renting(licensePlateField.getText(), licenseNumField.getText(), nameField.getText(), dateOfBirthPicker.getValue(), pickUpDatePicker.getValue(), deadlinePicker.getValue());
                 availableCars.setAll(restClientApi.getAllCars());
                 showPreis("Car rented!");
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                showError("Error: "+e.getMessage());
             }
         });
         return flowPane;

@@ -26,6 +26,24 @@ public class CarRentalSystemService {
 
     @Transactional
     public RentalDTO newCarRenting(String licensePlate, String licenseNum, String name, LocalDate dateOfBirth, LocalDate pickUpDate, LocalDate deadline){
+        Car car = carRepository.findByLicensePlate(licensePlate);
+        if (car == null) {
+            throw new RuntimeException("Car not found with license plate: " + licensePlate);
+        }
+        if (!car.isRentable()) {
+            throw new RuntimeException("Car is not available for renting!");
+        }
+        LocalDate minBirthDate = LocalDate.now().minusYears(18);
+        LocalDate today = LocalDate.now();
+        if(dateOfBirth.isAfter(minBirthDate)){
+            throw new RuntimeException("You must be 18 years old");
+        }
+        if(!pickUpDate.isBefore(deadline)){
+            throw new RuntimeException("Pick up date must be before deadline");
+        }
+        if(pickUpDate.isBefore(today)){
+            throw new RuntimeException("Pick up date cannot be in the past");
+        }
         List<Customer> customers = customerRepository.findByLicenseNum(licenseNum);
         Customer customer;
         if(customers.isEmpty()){
@@ -34,7 +52,6 @@ public class CarRentalSystemService {
         }else{
             customer = customers.get(0);
         }
-        Car car = carRepository.findByLicensePlate(licensePlate);
         car.setRentable(false);
         Rental rental = rentalRepository.save(new Rental(car,customer,pickUpDate,deadline, null));
         return RentalMapper.toDto(rental);
@@ -47,11 +64,12 @@ public class CarRentalSystemService {
     @Transactional
     public RentalDTO dropOffCar(String licenseNum,String name,LocalDate dropOffDate){
         Rental rental=rentalRepository.findByCustomer_LicenseNumAndDropOffDateIsNull(licenseNum);
-        
         if (rental == null) {
             throw new RuntimeException("No active rental found for customer: " + licenseNum);
         }
-        
+        if (dropOffDate.isBefore(rental.getPickUpDate())) {
+            throw new RuntimeException("Drop off date cannot be before pick up date");
+        }
         Car car=rental.getCar();
         car.setRentable(true);
         carRepository.save(car);

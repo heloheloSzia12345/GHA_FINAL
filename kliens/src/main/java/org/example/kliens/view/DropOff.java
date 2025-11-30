@@ -27,6 +27,13 @@ public class DropOff {
         alert.showAndWait();
     }
 
+    private void showError(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     public FlowPane getLayout(){
         TextField nameField = new TextField();
         nameField.setPromptText("Name");
@@ -40,12 +47,16 @@ public class DropOff {
         Button executeButton = new Button("Execute");
 
         executeButton.setOnAction(event -> {
+            if(nameField.getText().isEmpty() ||  licenseNumField.getText().isEmpty() || dropOffDatePicker.getValue() == null){
+                showPreis("Please fill all the fields");
+                return;
+            }
                 try {
                     RentalDTO rental = restClientApi.dropOffCar(licenseNumField.getText(),nameField.getText(),dropOffDatePicker.getValue());
                     availableCars.setAll(restClientApi.getAllCars());
                     showPreis("Preis "+ rental.getPreis()+"FT");
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    showError("Error: "+e.getMessage());
                 }
         });
 

@@ -11,6 +11,7 @@ module org.example.kliens {
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.datatype.jsr310;
+    requires javafx.base;
     opens org.example.kliens to javafx.fxml, javafx.graphics;
     opens org.example.kliens.dto to com.fasterxml.jackson.databind, javafx.base;
     opens org.example.kliens.restclientapi to javafx.fxml;

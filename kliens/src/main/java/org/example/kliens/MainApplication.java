@@ -16,7 +16,6 @@ public class MainApplication extends Application {
         HttpClient httpClient = HttpClient.newHttpClient();
         ObjectMapper objectMapper = new ObjectMapper();
         MainController mainController = new MainController(new RestClientApi(httpClient,objectMapper), FXCollections.observableArrayList());
-        mainController.initialize();
         Scene scene = new Scene(mainController.getRootLayout(),800,600);
         stage.setTitle("Car Rental System");
         stage.setScene(scene);

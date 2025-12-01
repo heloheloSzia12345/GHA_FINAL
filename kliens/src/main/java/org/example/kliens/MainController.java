@@ -41,7 +41,9 @@ public class MainController {
         Stage stage  = new Stage();
         Renting renting= new Renting(restClientApi,availableCars);
         stage.setTitle("Renting");
-        stage.setScene(new Scene(renting.getLayout()));
+        Scene scene = new Scene(renting.getLayout());
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        stage.setScene(scene);
         stage.show();
     }
 
@@ -49,7 +51,9 @@ public class MainController {
         Stage stage  = new Stage();
         DropOff dropOff= new DropOff(restClientApi,availableCars);
         stage.setTitle("Drop Off");
-        stage.setScene(new Scene(dropOff.getLayout()));
+        Scene scene = new Scene(dropOff.getLayout());
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        stage.setScene(scene);
         stage.show();
     }
 

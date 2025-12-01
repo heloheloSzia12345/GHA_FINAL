@@ -1,11 +1,13 @@
 package org.example.kliens.view;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import org.example.kliens.dto.CarDTO;
 import org.example.kliens.restclientapi.RestClientApi;
 
@@ -36,7 +38,7 @@ public class Renting {
         this.availableCars=availableCars;
     }
 
-    public FlowPane getLayout() throws Exception {
+    public BorderPane getLayout() throws Exception {
         TableView<CarDTO> tableView= new TableView<>();
         TextField nameField= new TextField();
         nameField.setPromptText("Name");
@@ -52,11 +54,11 @@ public class Renting {
         licensePlateField.setPromptText("License Plate");
         Button executeButton= new Button("Execute");
 
-        TableColumn<CarDTO, String> licensePlateCol = new TableColumn<>("LicensePlate");
+        TableColumn<CarDTO, String> licensePlateCol = new TableColumn<>("License Plate");
         licensePlateCol.setCellValueFactory(new PropertyValueFactory<>("licensePlate"));
         TableColumn<CarDTO, String> brandCol = new TableColumn<>("Brand");
         brandCol.setCellValueFactory(new PropertyValueFactory<>("brand"));
-        TableColumn<CarDTO, String> carTypeCol = new TableColumn<>("carType");
+        TableColumn<CarDTO, String> carTypeCol = new TableColumn<>("Car Type");
         carTypeCol.setCellValueFactory(new PropertyValueFactory<>("carType"));
         TableColumn<CarDTO, String> colorCol = new TableColumn<>("color");
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
@@ -66,31 +68,31 @@ public class Renting {
         tableView.setItems(availableCars);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        VBox box=new VBox(10);
-        box.setAlignment(Pos.TOP_LEFT);
+        GridPane leftPane = new GridPane();
+        leftPane.setHgap(20);
+        leftPane.setVgap(15);
+        leftPane.setPadding(new Insets(20));
+        leftPane.setAlignment(Pos.TOP_LEFT);
+        leftPane.add(new Label("Name:"), 0, 0);
+        leftPane.add(nameField, 1, 0);
+        leftPane.add(new Label("License Number:"), 0, 1);
+        leftPane.add(licenseNumField, 1, 1);
+        leftPane.add(new Label("Birth Date:"), 0, 2);
+        leftPane.add(dateOfBirthPicker, 1, 2);
+        leftPane.add(new Label("Pick-Up Date:"), 0, 3);
+        leftPane.add(pickUpDatePicker, 1, 3);
+        leftPane.add(new Label("Deadline:"), 0, 4);
+        leftPane.add(deadlinePicker, 1, 4);
+        leftPane.add(new Label("License Plate:"), 0, 5);
+        leftPane.add(licensePlateField, 1, 5);
+        HBox buttonBox = new HBox(executeButton);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+        leftPane.add(buttonBox, 1, 6);
 
-        box.getChildren().add(new Label("Name:"));
-        box.getChildren().add(nameField);
-        box.getChildren().add(new Label("License Number: "));
-        box.getChildren().add(licenseNumField);
-        box.getChildren().add(new Label("Birth Date:"));
-        box.getChildren().add(dateOfBirthPicker);
-        box.getChildren().add(new Label("Pick-Up Date:"));
-        box.getChildren().add(pickUpDatePicker);
-        box.getChildren().add(new Label("Deadline:"));
-        box.getChildren().add(deadlinePicker);
-        box.getChildren().add(new Label("License Plate:"));
-        box.getChildren().add(licensePlateField);
-        box.getChildren().add(executeButton);
-
-        FlowPane flowPane= new FlowPane();
-        flowPane.setMinSize(600,500);
-        flowPane.setAlignment(Pos.CENTER);
-        flowPane.setHgap(20);
-        flowPane.setVgap(20);
-
-        flowPane.getChildren().add(box);
-        flowPane.getChildren().add(tableView);
+        BorderPane root = new BorderPane();
+        root.setLeft(leftPane);
+        root.setCenter(tableView);
+        root.setPadding(new Insets(20));
 
         executeButton.setOnAction(event -> {
             if(nameField.getText().isEmpty() || licenseNumField.getText().isEmpty() || dateOfBirthPicker.getValue()==null || pickUpDatePicker.getValue()==null || deadlinePicker.getValue()==null || licensePlateField.getText().isEmpty()){
@@ -105,6 +107,6 @@ public class Renting {
                 showError("Error: "+e.getMessage());
             }
         });
-        return flowPane;
+        return root;
     }
 }

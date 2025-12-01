@@ -1,0 +1,151 @@
+/* --- Globális Stílusok --- */
+.root {
+    -fx-background-color: #f7f7f7; /* Világos szürke, szinte fehér háttér */
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333; /* Sötét, jól olvasható szöveg */
+}
+
+/* --- BorderPane (Gyökér elrendezés) --- */
+.border-pane {
+    -fx-padding: 30px;
+}
+
+/* --- GridPane (Bal oldali adatbeviteli panel) --- */
+.grid-pane {
+    -fx-background-color: white; /* Tiszta fehér háttér */
+    -fx-padding: 25px;
+    -fx-hgap: 15px;
+    -fx-vgap: 12px;
+    -fx-border-color: #cccccc; /* Nagyon finom keret */
+    -fx-border-width: 1px;
+    -fx-background-radius: 4px;
+}
+
+/* --- Címkék (Label) --- */
+.label {
+    -fx-text-fill: #555555;
+    -fx-font-weight: normal;
+}
+
+/* --- Szövegbeviteli mezők, Dátumválasztók (TextField, DatePicker) --- */
+.text-field, .date-picker {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #333333;
+    -fx-prompt-text-fill: #aaaaaa;
+    -fx-border-color: #cccccc; /* Világos szürke keret, mint az űrlapoknál */
+    -fx-border-width: 1px;
+    -fx-padding: 8px 10px;
+    -fx-background-radius: 4px;
+}
+
+.text-field:focused, .date-picker:focused {
+    -fx-border-color: #ff6600; /* Fókuszban narancs keret */
+    -fx-background-color: #fcfcfc;
+}
+
+/* Dátumválasztó gomb (DatePicker) */
+.date-picker > .arrow-button {
+    -fx-background-color: #eeeeee;
+    -fx-background-radius: 0 4px 4px 0;
+    -fx-cursor: hand;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0 0 0 1px;
+}
+
+.date-picker > .arrow-button > .arrow {
+    -fx-background-color: #555555;
+}
+
+/* --- Fő Gomb (Execute) --- */
+.button {
+    /* Terracotta/Narancs szín a képről */
+    -fx-background-color: #e65100; /* Sötétebb narancs, mint a 'Keresés' gomb */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+    -fx-effect: none; /* Nincs árnyék, lapos design */
+}
+
+.button:hover {
+    -fx-background-color: #ff6600; /* Világosabb narancs hover esetén */
+}
+
+.button:pressed {
+    -fx-background-color: #cc4700;
+}
+
+/* --- Táblázat (TableView) --- */
+.table-view {
+    -fx-background-color: #f7f7f7;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-background-radius: 4px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f0f0f0; /* Nagyon világos szürke fejléc háttér */
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0 0 1px 0; /* Alsó elválasztó */
+    -fx-padding: 8px 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .table-cell {
+    -fx-background-color: white; /* Sorok háttérszíne */
+    -fx-text-fill: #333333;
+    -fx-border-color: #e0e0e0; /* Nagyon halvány elválasztó vonal */
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 8px 10px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #fcfcfc; /* Szinte észrevehetetlen váltakozó sor */
+}
+
+/* Kiválasztott sor stílusa */
+.table-view .table-row-cell:selected {
+    -fx-background-color: #ffe0b2; /* Nagyon világos narancs/bézs kiválasztás */
+    -fx-text-fill: #333333;
+}
+
+.table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: #333333;
+}
+
+/* Görgő sávok stílusa */
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #cccccc;
+    -fx-background-radius: 5em;
+}
+
+/* --- HBox a gomb pozicionálásához --- */
+.h-box {
+    -fx-alignment: CENTER_RIGHT;
+    -fx-padding: 15px 0 0 0;
+}
+
+/* --- Riasztások (Alert) --- */
+/* Itt meghagyunk valamennyi színt a jobb megkülönböztetés érdekében */
+.alert {
+    -fx-background-color: white;
+    -fx-border-color: #e65100;
+    -fx-border-width: 2px;
+}
+
+.alert .header-panel {
+    -fx-background-color: #f0f0f0;
+}
+
+.alert .button {
+    -fx-background-color: #e65100;
+}

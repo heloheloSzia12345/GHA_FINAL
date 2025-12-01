@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.kliens.restclientapi.RestClientApi;
-
 import java.net.http.HttpClient;
 
 public class MainApplication extends Application {

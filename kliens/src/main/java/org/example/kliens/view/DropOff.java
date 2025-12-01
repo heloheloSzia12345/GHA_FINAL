@@ -1,6 +1,7 @@
 package org.example.kliens.view;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
@@ -46,7 +47,8 @@ public class DropOff {
         DatePicker dropOffDatePicker = new DatePicker();
         dropOffDatePicker.setPromptText("Drop-Off Date");
 
-        Button executeButton = new Button("Execute");
+        Button executeButton = new Button("\uf00c Execute");
+        executeButton.getStyleClass().add("icon-button");
 
         VBox informationVBox = new VBox(10);
         informationVBox.setMinHeight(300);
@@ -106,9 +108,13 @@ public class DropOff {
         flowPane.setAlignment(Pos.CENTER);
         flowPane.setHgap(20);
         flowPane.setVgap(20);
+        flowPane.setPadding(new Insets(20));
 
         flowPane.getChildren().add(box);
         flowPane.getChildren().add(informationVBox);
+
+        flowPane.getStyleClass().add("dropoff-root");
+
         return flowPane;
     }
 

@@ -21,8 +21,10 @@ public class MainController {
     }
 
     public VBox getRootLayout(){
-        Button rentButton = new Button("Rent");
-        Button dropOffButton = new Button("Drop Off");
+        Button rentButton = new Button("\uf5de Rent");
+        rentButton.getStyleClass().add("icon-button");
+        Button dropOffButton = new Button("Drop Off  \uf11e");
+        dropOffButton.getStyleClass().add("icon-button");
         rentButton.setOnAction(event -> {
             try {
                 renting();
@@ -32,6 +34,7 @@ public class MainController {
         });
         dropOffButton.setOnAction(event -> droppingOff());
         VBox vBox = new VBox(10);
+        vBox.getStyleClass().add("main-menu-bg");
         vBox.setAlignment(Pos.CENTER);
         vBox.getChildren().addAll(rentButton,dropOffButton);
         return vBox;

@@ -52,7 +52,8 @@ public class Renting {
         deadlinePicker.setPromptText("Deadline");
         TextField licensePlateField= new TextField();
         licensePlateField.setPromptText("License Plate");
-        Button executeButton= new Button("Execute");
+        Button executeButton = new Button("\uf00c Execute");
+        executeButton.getStyleClass().add("icon-button");
 
         TableColumn<CarDTO, String> licensePlateCol = new TableColumn<>("License Plate");
         licensePlateCol.setCellValueFactory(new PropertyValueFactory<>("licensePlate"));
@@ -107,6 +108,9 @@ public class Renting {
                 showError("Error: "+e.getMessage());
             }
         });
+
+        root.getStyleClass().add("renting-root");
+
         return root;
     }
 }

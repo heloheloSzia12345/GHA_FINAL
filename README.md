@@ -141,7 +141,7 @@ Itt a különböző ablakok imperatív JavaFX leírása és a binding-ok defini�
 
 Hogy egy kicsit modernizáljam a megjelenést, pár extrát belevittem a GUI-ba:
 
-- **style.css:** ezt AI generálta, a Használtauto.hu mintájára, különböző stílus változtatásokat vitt bele, háttérképet állítottam be az ablakoknak és a Font Awesome oldalról letöltött csomag segítségével ikonokat jelenítek meg a GUI-n, a szükséges fájlokat a resources könyvtár alatt tárolom (.css, .otf, .jpg)
+- **style.css:** ezt AI generálta, a Használtauto.hu mintájára, különböző stílus változtatásokat vitt bele, háttérképet állítottam be az ablakoknak és a Font Awesome oldalról letöltött csomag segítségével ikonokat jelenítek meg a GUI-n, a szükséges fájlokat a resources könyvtár alatt tárolom (.css, .otf, .jpg), emelett ha egy autóra rákattintunk akkor automatikusan kitölti a rendszám dobozt
 
 ### MainController
 

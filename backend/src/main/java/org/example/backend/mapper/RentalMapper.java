@@ -27,6 +27,7 @@ public class RentalMapper {
         rental.setPreis(dto.getPreis());
         return rental;
     }
+
     public void updateEntity(RentalDTO dto, Rental rental) {
         rental.setRentalId(dto.getRentalId());
         rental.setCar(CarMapper.toEntity(dto.getCar()));

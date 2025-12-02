@@ -1,6 +1,5 @@
 package org.example.backend.controller;
 
-
 import org.example.backend.dto.CarDTO;
 import org.example.backend.service.CarRentalSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +15,13 @@ import java.util.List;
 @RequestMapping("/api/car")
 @CrossOrigin("*")
 public class CarController {
+
     @Autowired
     private CarRentalSystemService carRentalSystemService;
+
     @GetMapping("/rentable")
     public ResponseEntity<List<CarDTO>> getRentableCars() {
-        List<CarDTO> rentableCars=carRentalSystemService.rentableCars();
+        List<CarDTO> rentableCars = carRentalSystemService.rentableCars();
         return ResponseEntity.ok(rentableCars);
     }
-
 }

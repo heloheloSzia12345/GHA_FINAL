@@ -12,6 +12,7 @@ public class CustomerMapper {
                 customer.getDateOfBirth()
         );
     }
+
     public static Customer toEntity(CustomerDTO customerDTO) {
         Customer customer = new Customer();
         customer.setCustomerId(customerDTO.getCustomerId());
@@ -20,6 +21,7 @@ public class CustomerMapper {
         customer.setDateOfBirth(customerDTO.getDateOfBirth());
         return customer;
     }
+
     public void updateEntity(CustomerDTO customerDTO, Customer entity) {
         entity.setCustomerId(customerDTO.getCustomerId());
         entity.setLicenseNum(customerDTO.getLicenseNum());

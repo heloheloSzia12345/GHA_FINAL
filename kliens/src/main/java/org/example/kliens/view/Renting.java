@@ -18,7 +18,12 @@ public class Renting {
     private final RestClientApi restClientApi;
     private final ObservableList<CarDTO> availableCars;
 
-    private void showPreis(String message){
+    public Renting(RestClientApi restClientApi, ObservableList<CarDTO> availableCars) {
+        this.restClientApi = restClientApi;
+        this.availableCars = availableCars;
+    }
+
+    private void showPreis(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Preis");
         alert.setHeaderText(null);
@@ -26,31 +31,26 @@ public class Renting {
         alert.showAndWait();
     }
 
-    private void showError(String message){
+    private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setContentText(message);
         alert.showAndWait();
     }
 
-    public Renting(RestClientApi restClientApi,ObservableList<CarDTO> availableCars) {
-        this.restClientApi = restClientApi;
-        this.availableCars=availableCars;
-    }
-
     public BorderPane getLayout() throws Exception {
-        TableView<CarDTO> tableView= new TableView<>();
-        TextField nameField= new TextField();
+        TableView<CarDTO> tableView = new TableView<>();
+        TextField nameField = new TextField();
         nameField.setPromptText("Name");
-        TextField licenseNumField= new TextField();
+        TextField licenseNumField = new TextField();
         licenseNumField.setPromptText("License Number");
-        DatePicker dateOfBirthPicker= new DatePicker();
+        DatePicker dateOfBirthPicker = new DatePicker();
         dateOfBirthPicker.setPromptText("Birth Date");
-        DatePicker pickUpDatePicker= new DatePicker();
+        DatePicker pickUpDatePicker = new DatePicker();
         pickUpDatePicker.setPromptText("Pick-Up Date");
-        DatePicker deadlinePicker= new DatePicker();
+        DatePicker deadlinePicker = new DatePicker();
         deadlinePicker.setPromptText("Deadline");
-        TextField licensePlateField= new TextField();
+        TextField licensePlateField = new TextField();
         licensePlateField.setPromptText("License Plate");
         Button executeButton = new Button("\uf00c Execute");
         executeButton.getStyleClass().add("icon-button");
@@ -63,7 +63,7 @@ public class Renting {
         carTypeCol.setCellValueFactory(new PropertyValueFactory<>("carType"));
         TableColumn<CarDTO, String> colorCol = new TableColumn<>("color");
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
-        tableView.getColumns().addAll(licensePlateCol, brandCol,carTypeCol,colorCol);
+        tableView.getColumns().addAll(licensePlateCol, brandCol, carTypeCol, colorCol);
         List<CarDTO> cars = restClientApi.getAllCars();
         availableCars.setAll(cars);
         tableView.setItems(availableCars);
@@ -96,16 +96,20 @@ public class Renting {
         root.setPadding(new Insets(20));
 
         executeButton.setOnAction(event -> {
-            if(nameField.getText().isEmpty() || licenseNumField.getText().isEmpty() || dateOfBirthPicker.getValue()==null || pickUpDatePicker.getValue()==null || deadlinePicker.getValue()==null || licensePlateField.getText().isEmpty()){
+            if (nameField.getText().isEmpty() || licenseNumField.getText().isEmpty() ||
+                    dateOfBirthPicker.getValue() == null || pickUpDatePicker.getValue() == null ||
+                    deadlinePicker.getValue() == null || licensePlateField.getText().isEmpty()) {
                 showPreis("Please fill all the fields!");
                 return;
             }
             try {
-                restClientApi.renting(licensePlateField.getText(), licenseNumField.getText(), nameField.getText(), dateOfBirthPicker.getValue(), pickUpDatePicker.getValue(), deadlinePicker.getValue());
+                restClientApi.renting(licensePlateField.getText(), licenseNumField.getText(),
+                        nameField.getText(), dateOfBirthPicker.getValue(),
+                        pickUpDatePicker.getValue(), deadlinePicker.getValue());
                 availableCars.setAll(restClientApi.getAllCars());
                 showPreis("Car rented!");
             } catch (Exception e) {
-                showError("Error: "+e.getMessage());
+                showError("Error: " + e.getMessage());
             }
         });
 

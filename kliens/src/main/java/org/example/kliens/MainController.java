@@ -20,7 +20,7 @@ public class MainController {
         this.availableCars = availableCars;
     }
 
-    public VBox getRootLayout(){
+    public VBox getRootLayout() {
         Button rentButton = new Button("\uf5de Rent");
         rentButton.getStyleClass().add("icon-button");
         Button dropOffButton = new Button("Drop Off  \uf11e");
@@ -36,13 +36,13 @@ public class MainController {
         VBox vBox = new VBox(10);
         vBox.getStyleClass().add("main-menu-bg");
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(rentButton,dropOffButton);
+        vBox.getChildren().addAll(rentButton, dropOffButton);
         return vBox;
     }
 
     private void renting() throws Exception {
-        Stage stage  = new Stage();
-        Renting renting= new Renting(restClientApi,availableCars);
+        Stage stage = new Stage();
+        Renting renting = new Renting(restClientApi, availableCars);
         stage.setTitle("Renting");
         Scene scene = new Scene(renting.getLayout());
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
@@ -50,9 +50,9 @@ public class MainController {
         stage.show();
     }
 
-    private void droppingOff(){
-        Stage stage  = new Stage();
-        DropOff dropOff= new DropOff(restClientApi,availableCars);
+    private void droppingOff() {
+        Stage stage = new Stage();
+        DropOff dropOff = new DropOff(restClientApi, availableCars);
         stage.setTitle("Drop Off");
         Scene scene = new Scene(dropOff.getLayout());
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());

@@ -25,34 +25,35 @@ public class RestClientApi {
         this.objectMapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
     }
 
-    public List<CarDTO> getAllCars() throws Exception{
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(BASE_URL+"/car/rentable")).header("Content-Type", "application/json").GET().build();
-        HttpResponse<String> response= httpClient.send(request,HttpResponse.BodyHandlers.ofString());
-        return objectMapper.readValue(response.body(), new TypeReference<>(){});
+    public List<CarDTO> getAllCars() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(BASE_URL + "/car/rentable")).header("Content-Type", "application/json").GET().build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        return objectMapper.readValue(response.body(), new TypeReference<>() {
+        });
     }
 
-    public RentalDTO renting(String licensePlate, String licenseNum, String name, LocalDate dateOfBirth, LocalDate pickUpDate, LocalDate deadline) throws Exception{
-        Map<String,Object> jsonMap= new HashMap<>();
-        jsonMap.put("licensePlate",licensePlate);
-        jsonMap.put("licenseNum",licenseNum);
-        jsonMap.put("name",name);
-        jsonMap.put("dateOfBirth",dateOfBirth);
-        jsonMap.put("pickUpDate",pickUpDate);
-        jsonMap.put("deadline",deadline);
+    public RentalDTO renting(String licensePlate, String licenseNum, String name, LocalDate dateOfBirth, LocalDate pickUpDate, LocalDate deadline) throws Exception {
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("licensePlate", licensePlate);
+        jsonMap.put("licenseNum", licenseNum);
+        jsonMap.put("name", name);
+        jsonMap.put("dateOfBirth", dateOfBirth);
+        jsonMap.put("pickUpDate", pickUpDate);
+        jsonMap.put("deadline", deadline);
         String json = objectMapper.writeValueAsString(jsonMap);
-        HttpRequest request =HttpRequest.newBuilder().uri(URI.create(BASE_URL+"/rental/renting")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json)).build();
-        HttpResponse<String> response= httpClient.send(request,HttpResponse.BodyHandlers.ofString());
-        return objectMapper.readValue(response.body(),RentalDTO.class);
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(BASE_URL + "/rental/renting")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json)).build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        return objectMapper.readValue(response.body(), RentalDTO.class);
     }
 
-    public RentalDTO dropOffCar(String licenseNum, String name, LocalDate dropOffDate) throws Exception{
-        Map<String,Object> jsonMap= new HashMap<>();
-        jsonMap.put("licenseNum",licenseNum);
-        jsonMap.put("name",name);
-        jsonMap.put("dropOffDate",dropOffDate);
+    public RentalDTO dropOffCar(String licenseNum, String name, LocalDate dropOffDate) throws Exception {
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("licenseNum", licenseNum);
+        jsonMap.put("name", name);
+        jsonMap.put("dropOffDate", dropOffDate);
         String json = objectMapper.writeValueAsString(jsonMap);
-        HttpRequest request= HttpRequest.newBuilder().uri(URI.create(BASE_URL+"/rental/drop")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json)).build();
-        HttpResponse<String> response= httpClient.send(request,HttpResponse.BodyHandlers.ofString());
-        return objectMapper.readValue(response.body(),RentalDTO.class);
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(BASE_URL + "/rental/drop")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json)).build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        return objectMapper.readValue(response.body(), RentalDTO.class);
     }
 }

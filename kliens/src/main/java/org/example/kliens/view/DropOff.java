@@ -17,12 +17,12 @@ public class DropOff {
     private final RestClientApi restClientApi;
     private final ObservableList<CarDTO> availableCars;
 
-    public DropOff(RestClientApi restClientApi,ObservableList<CarDTO> availableCars) {
+    public DropOff(RestClientApi restClientApi, ObservableList<CarDTO> availableCars) {
         this.restClientApi = restClientApi;
         this.availableCars = availableCars;
     }
 
-    private void showPreis(String message){
+    private void showPreis(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Preis");
         alert.setHeaderText(null);
@@ -30,14 +30,14 @@ public class DropOff {
         alert.showAndWait();
     }
 
-    private void showError(String message){
+    private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setContentText(message);
         alert.showAndWait();
     }
 
-    public FlowPane getLayout(){
+    public FlowPane getLayout() {
         TextField nameField = new TextField();
         nameField.setPromptText("Name");
 
@@ -68,31 +68,34 @@ public class DropOff {
         informationVBox.getChildren().add(total);
 
         executeButton.setOnAction(event -> {
-            if(nameField.getText().isEmpty() ||  licenseNumField.getText().isEmpty() || dropOffDatePicker.getValue() == null){
+            if (nameField.getText().isEmpty() || licenseNumField.getText().isEmpty() ||
+                    dropOffDatePicker.getValue() == null) {
                 showPreis("Please fill all the fields");
                 return;
             }
-                try {
-                    RentalDTO rental = restClientApi.dropOffCar(licenseNumField.getText(),nameField.getText(),dropOffDatePicker.getValue());
-                    availableCars.setAll(restClientApi.getAllCars());
-                    Long daysPassed = ChronoUnit.DAYS.between(rental.getPickUpDate(), rental.getDropOffDate());
-                    int baseAmount = (int) (daysPassed * 10000);
-                    int penaltyAmount = rental.getPreis()-baseAmount;
-                    rentalDaysLabel.setText("Rental Days: " + daysPassed);
-                    base.setText("Base Amount: " + baseAmount + " FT");
-                    if (penaltyAmount > 0) {
-                        penalty.setText("Penalty Amount: " + penaltyAmount + " FT");
-                    }else{
-                        penalty.setText("Penalty Amount: 0 FT");
-                    }
-                    total.setText("Total: " + rental.getPreis() + " FT");
-                    showPreis("Preis "+ rental.getPreis()+"FT");
-                } catch (Exception e) {
-                    showError("Error: "+e.getMessage());
+            try {
+                RentalDTO rental = restClientApi.dropOffCar(licenseNumField.getText(),
+                        nameField.getText(), dropOffDatePicker.getValue());
+                availableCars.setAll(restClientApi.getAllCars());
+                Long daysPassed = ChronoUnit.DAYS.between(rental.getPickUpDate(),
+                        rental.getDropOffDate());
+                int baseAmount = (int) (daysPassed * 10000);
+                int penaltyAmount = rental.getPreis() - baseAmount;
+                rentalDaysLabel.setText("Rental Days: " + daysPassed);
+                base.setText("Base Amount: " + baseAmount + " FT");
+                if (penaltyAmount > 0) {
+                    penalty.setText("Penalty Amount: " + penaltyAmount + " FT");
+                } else {
+                    penalty.setText("Penalty Amount: 0 FT");
                 }
+                total.setText("Total: " + rental.getPreis() + " FT");
+                showPreis("Preis " + rental.getPreis() + "FT");
+            } catch (Exception e) {
+                showError("Error: " + e.getMessage());
+            }
         });
 
-        VBox box=new VBox(10);
+        VBox box = new VBox(10);
         box.setAlignment(Pos.TOP_LEFT);
 
         box.getChildren().add(new Label("Name:"));
@@ -103,8 +106,8 @@ public class DropOff {
         box.getChildren().add(dropOffDatePicker);
         box.getChildren().add(executeButton);
 
-        FlowPane flowPane= new FlowPane();
-        flowPane.setMinSize(600,500);
+        FlowPane flowPane = new FlowPane();
+        flowPane.setMinSize(600, 500);
         flowPane.setAlignment(Pos.CENTER);
         flowPane.setHgap(20);
         flowPane.setVgap(20);
@@ -117,10 +120,4 @@ public class DropOff {
 
         return flowPane;
     }
-
-
-
-
-
-
 }

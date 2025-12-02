@@ -28,8 +28,7 @@ public class RestClientApi {
     public List<CarDTO> getAllCars() throws Exception {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(BASE_URL + "/car/rentable")).header("Content-Type", "application/json").GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        return objectMapper.readValue(response.body(), new TypeReference<>() {
-        });
+        return objectMapper.readValue(response.body(), new TypeReference<>() {});
     }
 
     public RentalDTO renting(String licensePlate, String licenseNum, String name, LocalDate dateOfBirth, LocalDate pickUpDate, LocalDate deadline) throws Exception {

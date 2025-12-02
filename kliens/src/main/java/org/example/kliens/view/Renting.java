@@ -69,6 +69,10 @@ public class Renting {
         tableView.setItems(availableCars);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+        tableView.getSelectionModel().selectedItemProperty().addListener((availableCars, old, car) -> {
+            licensePlateField.setText(car.getLicensePlate());
+        });
+
         GridPane leftPane = new GridPane();
         leftPane.setHgap(20);
         leftPane.setVgap(15);

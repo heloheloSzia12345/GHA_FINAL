@@ -78,20 +78,42 @@ A Mapper az Entity-t leképzi DTO-ra és fordítva is.
 - Ügyfél DTO: **Customer.java**
 - Bérlés DTO: **Rental.java**
 
----
-
 - Autó Mapper: **CarMapper.java**
 - Ügyfél Mapper: **CustomerMapper.java**
 - Bérlés Mapper: **RentalMapper.java**
 
 ### RequestDTO
 
+Erre csak azért van szükség, mivel a bérlő és a visszaadó függvények bemenetei több Entity tulajdonságát is tartalmazzák, így ezeket összevonjuk ezekbe az osztályokba, hogy egyszerűsüdjön a dolog.
 
+- Bérlés Request DTO: **RentalRequest.java**
+- Visszaadás Drop Off DTO: **DropOffRequest.java**
 
+### Repository
 
-| Method | Endpoint | Leírás |
+A Repository-k az adatbázis elérésének felületét biztosítják, ez köti össze az Entity-vel. Spring Data JPA-val dolgozom, amely automatikus megvalósítást nyújt: örökli a JpaRepository-t, ezzel a CRUD függvényeket örökli és a
+@Repository annotációval jelzem a Springnek, hogy ez egy Repository interface és a Spring automatikusan implementálja a CRUD függvényeket és az egyéb metódusokat a metódusnév alapján,
+pl.: Car findByLicensePlate(String licensePlate) , ami megegyezik SELECT * FROM Car WHERE LICENSEPLATE=licensePlate lekérdezéssel (Ez a CarRepository interface-ben van).
+
+- **CarRepository:** Autók keresése rendszém és foglaltság alapján
+- **CustomerRepository:** Ügyfél keresése jogosítványszám alapján
+- **RentalRepository:** Egy bérlést keressünk ügyfél alapján
+
+### Service
+
+A Service rétegben van az üzleti logikának a helye. A Repository réteget (adatbázis) és a Controller réteget (kliens kérések) köti össze. Ez a **CarRentalSystemService.java**-ban van implementálva. 
+
+- **Spring elemek:** a @Service annotációval jelölöm a service osztályt a Springnek, @Autowired annotációt a Dependency Injection miatt használjuk vagyis nem nekem kell létrehoznom a Repository példányokat, hanem a Spring fogja ezt megcsinálni, a @Transactional annotáció pedig biztosítja az atomi végrehajtását a függvényeknek
+- **Metódusok:** három metódusunk van, az egyik listázza az összes bérelhető autót, a második a bérlést hajtja végre, a harmadik a visszaadást hajtja végre, az kivétel kezelést megvalósítottam mindegyik függvénynél
+
+### Controller
+
+A Controller osztály feladata, hogy a klienstől érkező kéréseket fogadja és azt a Service-nek továbbítsa (REST API). A három metódus megvalósítása: 
+
+| HTTP Method | Endpoint | Leírás |
 |--------|----------|--------|
-| GET | `/api/car/rentable` | Szabad autók listája |
-| POST | `/api/rental/renting` | Új bérlés létrehozása |
-| POST | `/api/rental/drop` | Bérlés lezárása |
-| GET | `/api/rental/statistics` | Statisztikák |
+| GET | `/api/car/rentable` | Szabad autók listázása |
+| POST | `/api/rental/renting` | Bérlés |
+| POST | `/api/rental/drop` | Visszaadás |
+
+- **Spring elemek:**

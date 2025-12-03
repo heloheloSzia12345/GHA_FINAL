@@ -151,4 +151,12 @@ Ennek a feladata a főmenü imperatív megvalósítása, vagyis a Renting és a 
 
 Itt már csak annyi a feladat, hogy a stage-n megjelenítsük a scene-ket és elindítsuk az applikációt, ezt a **MainApplication.java** és a **Launcher.java** fájl segítségével valósítottam meg, de ezeket már nagyrészt a keretrendszer legenerálta. 
 
+## Teszt
 
+Csináltam egy-két tesztet a backend részhez a három A alapján (Arrange, Act, Assert). Voltak már olyan osztályok amik már 100%-os lefedettségüek voltak: **DTO**, **Repository** osztályok. Amiket teszteltem: 
+
+- **Entity** osztályok
+- **Mapper** osztáylok
+- **Service**-t teszteltem még nem teljesen, itt kellett **Mockito**-t használnom a Mock-olás miatt (@Mock, @InjectMocks) és a Mock objektum viselkedésének leírására
+
+A frontend-et nem teszteltem és a backend tesztelés is hiányos, de két teljes osztályt teszteltem és egy harmadikba kezdtem bele.

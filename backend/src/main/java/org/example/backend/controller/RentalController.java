@@ -16,7 +16,8 @@ public class RentalController {
     @Autowired
     private CarRentalSystemService carRentalSystemService;
 
-    @PostMapping("/renting")
+    // POST kérés
+    @PostMapping("/renting") // JSON objektum a bemenet
     public ResponseEntity<RentalDTO> newCarRenting(@RequestBody RentalRequest rentalRequest) {
         RentalDTO rentalDTO = carRentalSystemService.newCarRenting(
                 rentalRequest.getLicensePlate(),
@@ -29,6 +30,7 @@ public class RentalController {
         return ResponseEntity.ok(rentalDTO);
     }
 
+    // POST kérés
     @PostMapping("/drop")
     public ResponseEntity<RentalDTO> dropOff(@RequestBody DropOffRequest dropOffRequest) {
         RentalDTO rentalDTO = carRentalSystemService.dropOffCar(

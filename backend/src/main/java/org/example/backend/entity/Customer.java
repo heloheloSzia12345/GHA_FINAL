@@ -5,15 +5,16 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+// Lombok annotációk
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
+@Entity // JPA-nak, hogy ez egy tábla
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto increment, ez a primary key
     private Long customerId;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false) // License Num unique és not null lesz
     private String licenseNum;
     private String name;
     private LocalDate dateOfBirth;

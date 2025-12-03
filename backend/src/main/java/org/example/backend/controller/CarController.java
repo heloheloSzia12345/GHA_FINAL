@@ -11,17 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/car")
-@CrossOrigin("*")
+@RestController //Springnek jelzem, hogy ez egy Controller
+@RequestMapping("/api/car") // Elérési útvonal
+@CrossOrigin("*") // Mindenki kliens jogosult kérésre
 public class CarController {
-
+    // Dependency Injection
     @Autowired
     private CarRentalSystemService carRentalSystemService;
 
-    @GetMapping("/rentable")
+    // GET kérés
+    @GetMapping("/rentable") //Végpont definiálás
     public ResponseEntity<List<CarDTO>> getRentableCars() {
         List<CarDTO> rentableCars = carRentalSystemService.rentableCars();
-        return ResponseEntity.ok(rentableCars);
+        return ResponseEntity.ok(rentableCars); // JSON objektum
     }
 }

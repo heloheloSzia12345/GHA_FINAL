@@ -18,9 +18,10 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+//Springnek jelzem, hogy ez egy Service fájl
 @Service
 public class CarRentalSystemService {
-
+    // Dependency Injection, Spring példányosít
     @Autowired
     private CarRepository carRepository;
 
@@ -30,6 +31,7 @@ public class CarRentalSystemService {
     @Autowired
     private RentalRepository rentalRepository;
 
+    // Atomiságot fejezi ki, Rollback
     @Transactional
     public RentalDTO newCarRenting(String licensePlate, String licenseNum, String name,
                                    LocalDate dateOfBirth, LocalDate pickUpDate, LocalDate deadline) {
@@ -40,7 +42,8 @@ public class CarRentalSystemService {
         if (!car.isRentable()) {
             throw new RuntimeException("Car is not available for renting!");
         }
-        LocalDate minBirthDate = LocalDate.now().minusYears(18);
+        // Életkor ellenőrzése, minimális kor 18 év
+        LocalDate minBirthDate = LocalDate.now().minusYears(18); // 18 évvel ezelőtti dátum
         LocalDate today = LocalDate.now();
         if (dateOfBirth.isAfter(minBirthDate)) {
             throw new RuntimeException("You must be 18 years old");
@@ -53,15 +56,15 @@ public class CarRentalSystemService {
         }
         List<Customer> customers = customerRepository.findByLicenseNum(licenseNum);
         Customer customer;
-        if (customers.isEmpty()) {
+        if (customers.isEmpty()) { // Új ügyfél felvétele
             customer = new Customer(licenseNum, name, dateOfBirth);
             customerRepository.save(customer);
-        } else {
+        } else { // Ügyfél már bérelt autót
             customer = customers.get(0);
         }
         car.setRentable(false);
         Rental rental = rentalRepository.save(new Rental(car, customer, pickUpDate, deadline, null));
-        return RentalMapper.toDto(rental);
+        return RentalMapper.toDto(rental); // DTO-t adok vissza
     }
 
     public List<CarDTO> rentableCars() {
@@ -81,16 +84,16 @@ public class CarRentalSystemService {
         car.setRentable(true);
         carRepository.save(car);
         rental.setDropOffDate(dropOffDate);
-        int preis;
+        int preis; // Összeg számolás
         int preisProTag = 10000;
         long penalty = 0;
-        long planTage = ChronoUnit.DAYS.between(rental.getPickUpDate(), rental.getDeadline());
+        long planTage = ChronoUnit.DAYS.between(rental.getPickUpDate(), rental.getDeadline()); // Eltelt napok számítása
         long aktualTage = ChronoUnit.DAYS.between(rental.getPickUpDate(), rental.getDropOffDate());
         if (planTage < aktualTage) {
             penalty = 15000 * (aktualTage - planTage);
         }
-        preis = Math.toIntExact(preisProTag * aktualTage + penalty);
+        preis = Math.toIntExact(preisProTag * aktualTage + penalty); // Integerbe kasztolás
         rental.setPreis(preis);
-        return RentalMapper.toDto(rentalRepository.save(rental));
+        return RentalMapper.toDto(rentalRepository.save(rental)); // DTO-t ad vissza
     }
 }

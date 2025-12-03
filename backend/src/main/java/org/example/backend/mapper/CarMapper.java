@@ -3,7 +3,7 @@ package org.example.backend.mapper;
 import org.example.backend.dto.CarDTO;
 import org.example.backend.entity.Car;
 
-public class CarMapper {
+public class CarMapper { // Mappelés Entity-ből DTO-ba és vissza, meg update
 
     public static CarDTO toDto(Car car) {
         return new CarDTO(

@@ -3,15 +3,16 @@ package org.example.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+// Lombok annotációk
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
+@Entity // JPA-nak, hogy ez egy tábla
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto increment, ez a primary key
     private Long carId;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false) // License Plate unique és not null lesz
     private String licensePlate;
     private boolean rentable;
     private String brand;

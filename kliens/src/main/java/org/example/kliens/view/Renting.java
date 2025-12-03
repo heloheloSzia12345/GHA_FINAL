@@ -15,22 +15,24 @@ import java.util.List;
 
 public class Renting {
 
-    private final RestClientApi restClientApi;
-    private final ObservableList<CarDTO> availableCars;
+    private final RestClientApi restClientApi; // Kommunikáció a REST API-n keresztül
+    private final ObservableList<CarDTO> availableCars; // A bérelhető autók, ami folyamat frissül
 
     public Renting(RestClientApi restClientApi, ObservableList<CarDTO> availableCars) {
         this.restClientApi = restClientApi;
         this.availableCars = availableCars;
     }
 
+    // Felugró Alert ablak, információk megjelenítéséhez
     private void showPreis(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Preis");
+        alert.setTitle("Information");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
 
+    // Felugró Alert ablak, kivételek, hibák megjelenítéséhez
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -39,6 +41,7 @@ public class Renting {
     }
 
     public BorderPane getLayout() throws Exception {
+        // Mezők
         TableView<CarDTO> tableView = new TableView<>();
         TextField nameField = new TextField();
         nameField.setPromptText("Name");
@@ -54,7 +57,7 @@ public class Renting {
         licensePlateField.setPromptText("License Plate");
         Button executeButton = new Button("\uf00c Execute");
         executeButton.getStyleClass().add("icon-button");
-
+        // Táblázati beállítások
         TableColumn<CarDTO, String> licensePlateCol = new TableColumn<>("License Plate");
         licensePlateCol.setCellValueFactory(new PropertyValueFactory<>("licensePlate"));
         TableColumn<CarDTO, String> brandCol = new TableColumn<>("Brand");
@@ -68,16 +71,17 @@ public class Renting {
         availableCars.setAll(cars);
         tableView.setItems(availableCars);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
+        // Autóra kattintva automatikusan kitölti a License Plate mezőt
         tableView.getSelectionModel().selectedItemProperty().addListener((availableCars, old, car) -> {
             licensePlateField.setText(car.getLicensePlate());
         });
-
+        // Beviteli mezők box-ának definiálása
         GridPane leftPane = new GridPane();
         leftPane.setHgap(20);
         leftPane.setVgap(15);
         leftPane.setPadding(new Insets(20));
         leftPane.setAlignment(Pos.TOP_LEFT);
+        // Addolás
         leftPane.add(new Label("Name:"), 0, 0);
         leftPane.add(nameField, 1, 0);
         leftPane.add(new Label("License Number:"), 0, 1);
@@ -90,23 +94,24 @@ public class Renting {
         leftPane.add(deadlinePicker, 1, 4);
         leftPane.add(new Label("License Plate:"), 0, 5);
         leftPane.add(licensePlateField, 1, 5);
+        // Button-nak
         HBox buttonBox = new HBox(executeButton);
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
         leftPane.add(buttonBox, 1, 6);
-
+        // Legkülső Layout
         BorderPane root = new BorderPane();
         root.setLeft(leftPane);
         root.setCenter(tableView);
         root.setPadding(new Insets(20));
-
-        executeButton.setOnAction(event -> {
+        // Event handling
+        executeButton.setOnAction(event -> { // Üres mezők esetén
             if (nameField.getText().isEmpty() || licenseNumField.getText().isEmpty() ||
                     dateOfBirthPicker.getValue() == null || pickUpDatePicker.getValue() == null ||
                     deadlinePicker.getValue() == null || licensePlateField.getText().isEmpty()) {
                 showPreis("Please fill all the fields!");
                 return;
             }
-            try {
+            try { // Bérlés végrehajtása
                 restClientApi.renting(licensePlateField.getText(), licenseNumField.getText(),
                         nameField.getText(), dateOfBirthPicker.getValue(),
                         pickUpDatePicker.getValue(), deadlinePicker.getValue());
@@ -116,7 +121,7 @@ public class Renting {
                 showError("Error: " + e.getMessage());
             }
         });
-
+        // css
         root.getStyleClass().add("renting-root");
 
         return root;

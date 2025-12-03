@@ -5,19 +5,20 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+// Lombok annotációk
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
+@Entity // JPA-nak, hogy ez egy tábla
 public class Rental {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto increment, ez a primary key
     private Long rentalId;
-    @ManyToOne
-    @JoinColumn(name = "carId")
+    @ManyToOne // N:1 kapcsolatot hozok létre
+    @JoinColumn(name = "carId") // carId oszlopnak lesz ez az idegen kulcsa
     private Car car;
-    @ManyToOne
-    @JoinColumn(name = "customerId")
+    @ManyToOne // N:1 kapcsolatot hozok létre
+    @JoinColumn(name = "customerId") // customerId oszlopnak lesz ez az idegen kulcsa
     private Customer customer;
     private LocalDate pickUpDate;
     private LocalDate dropOffDate;

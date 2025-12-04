@@ -153,10 +153,11 @@ Itt már csak annyi a feladat, hogy a stage-n megjelenítsük a scene-ket és el
 
 ## Teszt
 
-Csináltam egy-két tesztet a backend részhez a három A alapján (Arrange, Act, Assert). Voltak már olyan osztályok amik már 100%-os lefedettségüek voltak: **DTO**, **Repository** osztályok. Amiket teszteltem: 
+Csináltam teszteket a backend részhez a három A alapján (Arrange, Act, Assert). Voltak már olyan osztályok amik már 100%-os lefedettségüek voltak: **DTO**, **Repository** osztályok. A teszteléshez használtam Mockito-t. 
+A használt annotációk: **@Mock**, **@InjectMocks** a mock-oláshoz, emelett when().thenReturn() funkciót alkalmaztam még. Amiket teszteltem: 
 
 - **Entity** osztályok
 - **Mapper** osztáylok
-- **Service**-t teszteltem még nem teljesen, itt kellett **Mockito**-t használnom a Mock-olás miatt (@Mock, @InjectMocks) és a Mock objektum viselkedésének leírására
+- **Service** osztály
 
-A frontend-et nem teszteltem és a backend tesztelés is hiányos, de két teljes osztályt teszteltem és egy harmadikba kezdtem bele.
+A frontend-et nem teszteltem és a backend tesztelés is hiányos, mivel a Controller osztályok kimaradtak, de a többit 100%-os lefedettséggel teszteltem.

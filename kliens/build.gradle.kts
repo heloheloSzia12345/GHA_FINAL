@@ -1,0 +1,70 @@
+plugins {
+    java
+    application
+    id("org.javamodularity.moduleplugin") version "1.8.15"
+    id("org.openjfx.javafxplugin") version "0.0.13"
+    id("org.beryx.jlink") version "2.25.0"
+}
+
+group = "org.example"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+val junitVersion = "5.12.1"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
+application {
+    mainModule.set("org.example.kliens")
+    mainClass.set("org.example.Launcher")
+}
+
+javafx {
+    version = "21.0.6"
+    modules = listOf("javafx.controls", "javafx.fxml", "javafx.web", "javafx.swing")
+}
+
+dependencies {
+    implementation("org.controlsfx:controlsfx:11.2.1")
+    implementation("com.dlsc.formsfx:formsfx-core:11.6.0") {
+        exclude(group = "org.openjfx")
+    }
+    implementation("org.kordamp.ikonli:ikonli-javafx:12.3.1")
+    implementation("eu.hansolo:tilesfx:21.0.9") {
+        exclude(group = "org.openjfx")
+    }
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2")
+
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
+
+    testCompileOnly("org.projectlombok:lombok:1.18.30")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.30")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+jlink {
+    imageZip.set(layout.buildDirectory.file("/distributions/app-${javafx.platform.classifier}.zip"))
+    options.set(listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages"))
+    launcher {
+        name = "app"
+    }
+}
